@@ -31,7 +31,7 @@ namespace Menadżer_3
 
             if (string.IsNullOrWhiteSpace(boxregisterusername.Text) || string.IsNullOrWhiteSpace(boxregisterpassword.Password))
             {       
-                using (StreamWriter writer = File.AppendText("C:\\Users\\jan.kaczmarek\\source\\repos\\Menadżer 3\\A konta\\konta.txt"))
+                using (StreamWriter writer = File.AppendText("C:\\Users\\jan.kaczmarek\\source\\repos\\Menadżer 3\\Akonta\\konta.txt"))
                 {
                 writer.Write("Dane Logowania");
                 writer.WriteLine("zapisuje plik");

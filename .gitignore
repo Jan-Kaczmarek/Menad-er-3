@@ -151,3 +151,6 @@ FodyWeavers.xsd
 # ANTLR
 data/dsl/*.class
 data/dsl/*.java
+
+# User file
+Akonta/**
