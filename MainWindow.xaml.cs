@@ -45,6 +45,13 @@ namespace Menadżer_3
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
           
+
+
+
+
+
+
+
         }
 
     }

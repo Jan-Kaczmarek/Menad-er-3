@@ -55,8 +55,8 @@
                 HorizontalAlignment="Center" 
                 Margin="0,219,0,0" 
                 VerticalAlignment="Top" 
-                Width="185" Height="20"
-                
+                Width="185" 
+                Height="20"
                  />
         <!--Potwierdzenie-->
         <Button Name="btnendregister"
@@ -68,8 +68,5 @@
             Background="#FF97ABAF" 
             Click="btnendregister_Click"
             />
-
-
-
     </Grid>
 </Window>

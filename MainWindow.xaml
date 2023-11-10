@@ -7,15 +7,74 @@
         mc:Ignorable="d"
         Title="Logowanie" Height="415" Width="325" ResizeMode="NoResize">
     <Grid Background="#FFA9B2B7">
-        <TextBlock Margin="81,74,64,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="60" FontSize="30" FontWeight="Bold" FontFamily="Arial Rounded MT Bold"><Run Language="pl-pl" Text="Logowanie"/></TextBlock>
+        <TextBlock Margin="81,74,64,0" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Height="60" FontSize="30"
+                   FontWeight="Bold" 
+                   FontFamily="Arial
+                   Rounded MT Bold">
+                   <Run Language="pl-pl" Text="Logowanie"/>
+        </TextBlock>
      <!--Pola do logowania-->
-        <TextBlock HorizontalAlignment="Left" Margin="81,169,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="170" FontWeight="Bold"><Run Text="Nazwa U"/><Run Text="żytkownika"/><Run Language="pl-pl" Text=":"/></TextBlock>
-            <TextBox Name="boxUser" TextWrapping="Wrap" Margin="81,189,0,0" HorizontalAlignment="Left" TextChanged="boxUser_TextChanged"   VerticalAlignment="Top" Width="170" Background="#FFA9B2B7" BorderBrush="Black"/>
-        <TextBlock HorizontalAlignment="Left" Margin="81,215,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="170" FontWeight="Bold"><Run Text="Hasło"/><Run Language="pl-pl" Text=":"/></TextBlock>
-            <PasswordBox Name="boxPassword" HorizontalAlignment="Left" Margin="81,236,0,0" VerticalAlignment="Top" Width="170" Background="#ffA9B2B7" BorderBrush="Black"/>
+        <TextBlock HorizontalAlignment="Left" 
+                   Margin="81,169,0,0" 
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top"
+                   Width="170" 
+                   FontWeight="Bold">
+                    <Run Text="Nazwa U"/><Run Text="żytkownika"/>
+                    <Run Language="pl-pl" 
+                    Text=":"/>
+        </TextBlock>
+            <TextBox Name="boxUser" 
+                     TextWrapping="Wrap" 
+                     Margin="81,189,0,0" 
+                     HorizontalAlignment="Left"
+                     TextChanged="boxUser_TextChanged" 
+                     VerticalAlignment="Top"
+                     Width="170" 
+                     Background="#FFA9B2B7" 
+                     BorderBrush="Black"
+                     />
+        <TextBlock HorizontalAlignment="Left"
+                   Margin="81,215,0,0"
+                   TextWrapping="Wrap"
+                   VerticalAlignment="Top"
+                   Width="170" 
+                   FontWeight="Bold">
+                        <Run Text="Hasło"/><Run Language="pl-pl" Text=":"/>
+        </TextBlock>
+            <PasswordBox Name="boxPassword" 
+                         HorizontalAlignment="Left" 
+                         Margin="81,236,0,0" 
+                         VerticalAlignment="Top"
+                         Width="170" 
+                         Background="#ffA9B2B7" 
+                         BorderBrush="Black"/>
      <!--Guziory-->   
-        <Button x:Name="btnLogin" Content="Zaloguj" HorizontalAlignment="Center" Margin="0,274,0,0" VerticalAlignment="Top" Width="75" Height="25" Background="#FFA9B2B7" BorderBrush="Black" Click="btnLogin_Click" FontSize="14" FontWeight="Bold"/>
-        <Button x:Name="btnCreateAccount" Content="Utwórz konto" HorizontalAlignment="Center" Margin="0,344,0,0" VerticalAlignment="Top" BorderBrush="Black" Background="#FFA9B2B7" FontWeight="Bold" FontSize="11" Click="btnCreateAccount_Click"/>
+        <Button x:Name="btnLogin" 
+                Content="Zaloguj" 
+                HorizontalAlignment="Center" 
+                Margin="0,274,0,0" 
+                VerticalAlignment="Top" 
+                Width="75" Height="25" 
+                Background="#FFA9B2B7" 
+                BorderBrush="Black" 
+                Click="btnLogin_Click" 
+                FontSize="14" 
+                FontWeight="Bold"
+                />
+        <Button x:Name="btnCreateAccount" 
+                Content="Utwórz konto" 
+                HorizontalAlignment="Center" 
+                Margin="0,344,0,0" 
+                VerticalAlignment="Top" 
+                BorderBrush="Black" 
+                Background="#FFA9B2B7" 
+                FontWeight="Bold" FontSize="11" 
+                Click="btnCreateAccount_Click"
+                />
 
 
     </Grid>
