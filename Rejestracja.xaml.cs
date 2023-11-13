@@ -27,6 +27,38 @@ namespace Menadżer_3
             InitializeComponent();
         }
 
+        // szyfriwanie
+        public static string EncryptString(string plainText)
+        {
+            string key = "1234567890123456"; // Your Key Here
+            byte[] iv = new byte[16];
+            byte[] array;
+
+            using (Aes aes = Aes.Create())
+            {
+                aes.Key = Encoding.UTF8.GetBytes(key);
+                aes.IV = iv;
+
+                ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, encryptor, CryptoStreamMode.Write))
+                    {
+                        using (StreamWriter streamWriter = new StreamWriter((Stream)cryptoStream))
+                        {
+                            streamWriter.Write(plainText);
+                        }
+
+                        array = memoryStream.ToArray();
+                    }
+                }
+            }
+
+            return Convert.ToBase64String(array);
+        }
+
+        // Czy plik istnieje xD
         public bool DoesFileExist(string filePath)
         {
             try
@@ -49,10 +81,15 @@ namespace Menadżer_3
             }
         }
 
+        // Rejestracja
         private void btnendregister_Click(object sender, RoutedEventArgs e)
         {
             string filePath = "C:\\Users\\jan.kaczmarek\\source\\repos\\Menadżer 3\\Akonta\\konta.txt";
             string password = boxregisterpassword.Password;
+            string encryptedPassword = EncryptString(password);
+            string User = boxregisterusername.Text;
+            string username = EncryptString(User);
+
             if (DoesFileExist(filePath))
             {
                 string[] lines = File.ReadAllLines(filePath);
@@ -63,15 +100,15 @@ namespace Menadżer_3
                         MessageBox.Show("Hasło jest już używane");
                         return;
                     }
-                    if (line == "Login: " + boxregisterusername.Text)
+                    if (line == "Login: " + User)
                     {
                         MessageBox.Show("Taka nazwa użytkownika jest już zajęta :(");
                         return;
                     }
                 }
             }
-            if (string.IsNullOrWhiteSpace(boxregisterusername.Text) ||
-                string.IsNullOrWhiteSpace(boxregisterpassword.Password))
+            if (string.IsNullOrWhiteSpace(username) ||
+                string.IsNullOrWhiteSpace(encryptedPassword))
             {
                 MessageBox.Show("No tak to nie dziala");
             }
@@ -79,49 +116,15 @@ namespace Menadżer_3
             {
                 using (StreamWriter writer = File.AppendText("C:\\Users\\jan.kaczmarek\\source\\repos\\Menadżer 3\\Akonta\\konta.txt"))
                 {
-                    writer.Write("Dane Logowania");
+                    writer.Write("Dane Logowania ");
                     writer.WriteLine("zapisuje plik");
-                    writer.WriteLine("Login: " + boxregisterusername.Text);
-                    writer.WriteLine("hasło: " + boxregisterpassword.Password);
+                    writer.WriteLine("Login: " + username);
+                    writer.WriteLine("hasło: " + encryptedPassword); // Zapisanie zaszyfrowanego hasła
                 }
                 MessageBox.Show("Zadziałało");
                 MainWindow MainWindow = new MainWindow();
                 this.Visibility = Visibility.Hidden;
                 MainWindow.Show();
-                EncryptFile("C:\\Users\\jan.kaczmarek\\source\\repos\\Menadżer 3\\Akonta\\konta.txt", "C:\\Users\\jan.kaczmarek\\source\\repos\\Menadżer 3\\Akonta\\Niepowiem.txt");
-            }
-        }
-
-        private void EncryptFile(string inputFile, string outputFile)
-        {
-            try
-            {
-                string password = @"ZAQ!2wsx"; // Your Key Here
-                UnicodeEncoding UE = new UnicodeEncoding();
-                byte[] key = UE.GetBytes(password);
-
-                string cryptFile = outputFile;
-                FileStream fsCrypt = new FileStream(cryptFile, FileMode.Create);
-
-                RijndaelManaged RMCrypto = new RijndaelManaged();
-
-                CryptoStream cs = new CryptoStream(fsCrypt,
-                    RMCrypto.CreateEncryptor(key, key),
-                    CryptoStreamMode.Write);
-
-                FileStream fsIn = new FileStream(inputFile, FileMode.Open);
-
-                int data;
-                while ((data = fsIn.ReadByte()) != -1)
-                    cs.WriteByte((byte)data);
-
-                fsIn.Close();
-                cs.Close();
-                fsCrypt.Close();
-            }
-            catch
-            {
-                MessageBox.Show("Encryption failed!", "Error");
             }
         }
     }
