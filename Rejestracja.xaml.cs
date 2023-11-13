@@ -63,6 +63,11 @@ namespace Menadżer_3
                         MessageBox.Show("Hasło jest już używane");
                         return;
                     }
+                    if (line == "Login: " + boxregisterusername.Text)
+                    {
+                        MessageBox.Show("Taka nazwa użytkownika jest już zajęta :(");
+                        return;
+                    }
                 }
             }
             if (string.IsNullOrWhiteSpace(boxregisterusername.Text) ||
