@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -75,6 +76,12 @@ namespace Menadżer_3
             }
         }
 
+        public bool IsBase64String(string s)
+        {
+            s = s.Trim();
+            return (s.Length % 4 == 0) && Regex.IsMatch(s, @"^[a-zA-Z0-9\+/]*={0,3}$", RegexOptions.None);
+        }
+
         private void boxPassword_TextChanged(object sender, TextChangedEventArgs e)
         {
         }
@@ -107,24 +114,35 @@ namespace Menadżer_3
                 foreach (var login in logins)
                 {
                     counter += 1;
-                    if (login == "Login: " + username)
-                    {
-                        string passwordFromCollection = passwords.ElementAtOrDefault(counter).ToString().Substring(7);// .FirstOrDefault().ToString().Substring(7);
-                        string encryptedPassword = passwordFromCollection; // Usuń "hasło: " z linii
-                        string decryptedPassword = DecryptString(encryptedPassword);
+                    string encryptedUsername = login.Substring(7); // Usuń "Login: " z linii
 
-                        if (decryptedPassword == password)
+                    if (IsBase64String(encryptedUsername))
+                    {
+                        string decryptedUsername = DecryptString(encryptedUsername);
+
+                        if (decryptedUsername == username)
                         {
-                            MessageBox.Show("Zalogowano pomyślnie!");
-                            Aplikacja Aplikacja = new Aplikacja();
-                            this.Visibility = Visibility.Hidden;
-                            Aplikacja.Show();
-                            return;
-                        }
-                        else
-                        {
-                            MessageBox.Show("Niepoprawne hasło!");
-                            return;
+                            string passwordFromCollection = passwords.ElementAtOrDefault(counter).ToString().Substring(7);
+                            string encryptedPassword = passwordFromCollection; // Usuń "hasło: " z linii
+
+                            if (IsBase64String(encryptedPassword))
+                            {
+                                string decryptedPassword = DecryptString(encryptedPassword);
+
+                                if (decryptedPassword == password)
+                                {
+                                    MessageBox.Show("Zalogowano pomyślnie!");
+                                    Aplikacja Aplikacja = new Aplikacja();
+                                    this.Visibility = Visibility.Hidden;
+                                    Aplikacja.Show();
+                                    return;
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Niepoprawne hasło!");
+                                    return;
+                                }
+                            }
                         }
                     }
                 }

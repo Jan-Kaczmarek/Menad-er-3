@@ -95,20 +95,20 @@ namespace Menadżer_3
                 string[] lines = File.ReadAllLines(filePath);
                 foreach (string line in lines)
                 {
-                    if (line == "hasło: " + password)
+                    if (line == "hasło: " + encryptedPassword)
                     {
                         MessageBox.Show("Hasło jest już używane");
                         return;
                     }
-                    if (line == "Login: " + User)
+                    if (line == "Login: " + username)
                     {
                         MessageBox.Show("Taka nazwa użytkownika jest już zajęta :(");
                         return;
                     }
                 }
             }
-            if (string.IsNullOrWhiteSpace(username) ||
-                string.IsNullOrWhiteSpace(encryptedPassword))
+            if (string.IsNullOrWhiteSpace(User) ||
+                string.IsNullOrWhiteSpace(password))
             {
                 MessageBox.Show("No tak to nie dziala");
             }
