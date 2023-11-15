@@ -8,30 +8,33 @@
         Title="Menadżer" Height="450" Width="800">
     <Grid>
 
+        <!--Nowa teczka-->
+        <Button
+            Content="Button"
+            HorizontalAlignment="Left"
+            Margin="90,49,0,0"
+            VerticalAlignment="Top"
+            Height="70"
+            Width="100"
+            Click="Nteczka_Click" />
         <!---->
         <Button
             Content="Button"
             HorizontalAlignment="Left"
-            Margin="20,10,0,0"
-            VerticalAlignment="Top" />
+            Margin="90,139,0,0"
+            VerticalAlignment="Top" Height="70" Width="100" />
         <!---->
         <Button
             Content="Button"
             HorizontalAlignment="Left"
-            Margin="90,34,0,0"
-            VerticalAlignment="Top" />
+            Margin="90,234,0,0"
+            VerticalAlignment="Top" Height="70" Width="100" />
         <!---->
         <Button
             Content="Button"
             HorizontalAlignment="Left"
-            Margin="150,64,0,0"
-            VerticalAlignment="Top" />
-        <!---->
-        <Button
-            Content="Button"
-            HorizontalAlignment="Left"
-            Margin="60,89,0,0"
-            VerticalAlignment="Top" />
-        <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" Margin="215,0,0,0" />
+            Margin="90,324,0,0"
+            VerticalAlignment="Top" Height="70" Width="100" />
+        <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Margin="205,0,0,0" SelectionChanged="DataGrid_SelectionChanged_1" Name="dataGrid" CanUserAddRows="False" />
     </Grid>
 </Window>

@@ -1,0 +1,51 @@
+﻿<Window x:Class="Menadżer_3.Nowateczka"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Menadżer_3"
+        mc:Ignorable="d"
+        Title="Nowateczka" Height="340" Width="525" ResizeMode="NoResize">
+    <Grid Margin="0,0,0,0">
+        <TextBox Name="WebsiteName"
+            HorizontalAlignment="Left"
+            Margin="15,149,0,0"
+            TextWrapping="Wrap"
+            VerticalAlignment="Top"
+            Width="120" />
+        <TextBox Name="Email"
+            HorizontalAlignment="Left"
+            Margin="140,149,0,0"
+            TextWrapping="Wrap"
+            VerticalAlignment="Top"
+            Width="120" />
+        <TextBox Name="Password"
+            HorizontalAlignment="Left"
+            Margin="390,149,0,0"
+            TextWrapping="Wrap"
+            VerticalAlignment="Top"
+            Width="120" />
+        <TextBlock
+            HorizontalAlignment="Center"
+            Margin="0,49,0,0"
+            TextWrapping="Wrap"
+            Text="Dodaj nową stronę/Aplikację"
+            VerticalAlignment="Top"
+            FontSize="24" FontWeight="Bold"
+            FontFamily="72 Black" />
+        <Button
+            Content="Dodaj"
+            HorizontalAlignment="Center"
+            Margin="0,199,0,60"
+            Width="90" Click="Button_Click" />
+        <TextBox Name="UserName" HorizontalAlignment="Left"
+                 Margin="265,149,0,0"
+                 TextWrapping="Wrap"
+                 VerticalAlignment="Top"
+                 Width="120" />
+        <TextBlock HorizontalAlignment="Left" Margin="435,117,0,0" TextWrapping="Wrap" Text="Hasło" VerticalAlignment="Top" />
+        <TextBlock HorizontalAlignment="Left" Margin="183,114,0,0" TextWrapping="Wrap" Text="E-mail" VerticalAlignment="Top" />
+        <TextBlock HorizontalAlignment="Left" Margin="272,117,0,0" TextWrapping="Wrap" Text="Nazwa Użytkownika" VerticalAlignment="Top" />
+        <TextBlock HorizontalAlignment="Left" Margin="39,114,0,0" TextWrapping="Wrap" Text="Nazwa strony" VerticalAlignment="Top" />
+    </Grid>
+</Window>
