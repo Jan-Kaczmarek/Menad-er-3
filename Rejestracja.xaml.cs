@@ -121,11 +121,23 @@ namespace Menadżer_3
                     writer.WriteLine("Login: " + username);
                     writer.WriteLine("hasło: " + encryptedPassword); // Zapisanie zaszyfrowanego hasła
                 }
+                string path = @"C:\Users\jan.kaczmarek\source\repos\Menadżer 3\Dane\" + User + ".txt";
+                if (!File.Exists(path))
+                {
+                    using (StreamWriter sw = File.CreateText(path)) ;
+                }
                 MessageBox.Show("Zadziałało");
                 MainWindow MainWindow = new MainWindow();
                 this.Visibility = Visibility.Hidden;
                 MainWindow.Show();
             }
+        }
+
+        private void logowanie_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow MainWindow = new MainWindow();
+            this.Visibility = Visibility.Hidden;
+            MainWindow.Show();
         }
     }
 }

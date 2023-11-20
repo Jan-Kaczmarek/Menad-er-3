@@ -1,5 +1,0 @@
-﻿Dane Logowania
-Nazwa Strony: Google
-email: bas@gas
-Nazwa Użytkownika: Bob
-Hasło: 123

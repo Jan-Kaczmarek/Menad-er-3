@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LightMessageBus;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,6 +21,8 @@ namespace Menadżer_3
     /// </summary>
     public partial class Nowateczka : Window
     {
+        public string username;
+
         public Nowateczka()
         {
             InitializeComponent();
@@ -27,10 +30,10 @@ namespace Menadżer_3
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            string filePath = "C:\\Users\\jan.kaczmarek\\source\\repos\\Menadżer 3\\Dane\\DaneLogowania.txt";
+            string filePath = "C:\\Users\\jan.kaczmarek\\source\\repos\\Menadżer 3\\Dane\\" + username + ".txt";
             string webname = WebsiteName.Text;
             string email = Email.Text;
-            string username = UserName.Text;
+            string userName = UserName.Text;
             string password = Password.Text;
 
             using (StreamWriter writer = File.AppendText(filePath))
@@ -38,9 +41,10 @@ namespace Menadżer_3
                 writer.WriteLine("Dane Logowania");
                 writer.WriteLine("Nazwa Strony: " + webname);
                 writer.WriteLine("email: " + email);
-                writer.WriteLine("Nazwa Użytkownika: " + username);
+                writer.WriteLine("Nazwa Użytkownika: " + userName);
                 writer.WriteLine("Hasło: " + password);
             }
+            MessageBus.Default.Publish(new RefreshMessage(this, "Refresh"));
             this.Close();
         }
     }

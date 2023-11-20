@@ -134,6 +134,7 @@ namespace Menadżer_3
                                     MessageBox.Show("Zalogowano pomyślnie!");
                                     Aplikacja Aplikacja = new Aplikacja();
                                     this.Visibility = Visibility.Hidden;
+                                    Aplikacja.username = decryptedUsername;
                                     Aplikacja.Show();
                                     return;
                                 }
