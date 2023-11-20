@@ -16,8 +16,8 @@
         <Button
             Content="Dodaj +"
             HorizontalAlignment="Left"
-            Margin="50,34,0,0"
-            VerticalAlignment="Top"
+            Margin="50,0,0,0"
+            VerticalAlignment="Center"
             Height="70"
             Width="100"
             Click="Nteczka_Click" FontSize="24" FontWeight="Bold" FontFamily="72 Black" />
@@ -25,8 +25,8 @@
         <Button Name="Edit"
             Content="Edytuj"
             HorizontalAlignment="Left"
-            Margin="50,120,0,0"
-            VerticalAlignment="Top" Height="60" Width="100" Click="EditRow" FontSize="24" FontWeight="Bold" FontFamily="72 Black" />
+            Margin="50,200,0,0"
+            VerticalAlignment="Top" Height="60" Width="100" Click="EditRow" FontSize="24" FontWeight="Bold" FontFamily="72 Black" Grid.RowSpan="2" />
         <!---->
         <Button
             Content="Wyloguj"

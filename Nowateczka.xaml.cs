@@ -36,6 +36,12 @@ namespace Menadżer_3
             string userName = UserName.Text;
             string password = Password.Text;
 
+            if (string.IsNullOrWhiteSpace(webname) || string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(userName) || string.IsNullOrWhiteSpace(password))
+            {
+                MessageBox.Show("Wszystko musi być wypełnione cymbale");
+                return;
+            }
+
             using (StreamWriter writer = File.AppendText(filePath))
             {
                 writer.WriteLine("Dane Logowania");
@@ -46,6 +52,27 @@ namespace Menadżer_3
             }
             MessageBus.Default.Publish(new RefreshMessage(this, "Refresh"));
             this.Close();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            // Generowanie losowego hasła o losowej długości od 5 do 15
+            Random rnd = new Random();
+            int passwordLength = rnd.Next(5, 16);
+            string password = GeneratePassword(passwordLength);
+
+            // Przypisanie wygenerowanego hasła do kontrolki
+            Password.Text = password;
+        }
+
+        private string GeneratePassword(int length)
+        {
+            const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+            string res = "";
+            Random rnd = new Random();
+            while (0 < length--)
+                res += valid[rnd.Next(valid.Length)];
+            return res;
         }
     }
 }
