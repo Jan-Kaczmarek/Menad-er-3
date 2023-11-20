@@ -37,12 +37,18 @@
                 <ImageBrush />
             </Button.Background>
         </Button>
-        <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Margin="205,69,0,0" SelectionChanged="DataGrid_SelectionChanged_1" Name="dataGrid" CanUserAddRows="False" Loaded="dataGrid_Loaded" Grid.RowSpan="2" />
-        <TextBox x:Name="Szukajka"
+        <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}"
+                  Margin="205,69,0,0"
+                  SelectionChanged="DataGrid_SelectionChanged_1"
+                  Name="dataGrid"
+                  CanUserAddRows="False"
+                  Loaded="dataGrid_Loaded"
+                  Grid.RowSpan="2" />
+        <TextBox Name="Szukajka"
                  HorizontalAlignment="Left"
                  Margin="205,34,0,0"
                  TextWrapping="Wrap"
-                 Text="TextBox"
+                 Text="&#xD;&#xA;"
                  VerticalAlignment="Top"
                  Width="600" Height="20"
                  FontSize="14"

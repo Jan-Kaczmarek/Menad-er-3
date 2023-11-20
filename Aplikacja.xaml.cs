@@ -17,6 +17,8 @@ using System.Collections.ObjectModel;
 using LightMessageBus.Interfaces;
 using LightMessageBus;
 using System.Reflection;
+using System.ComponentModel;
+using System.Security.Cryptography;
 
 namespace Menadżer_3
 {
@@ -26,6 +28,8 @@ namespace Menadżer_3
     public partial class Aplikacja : Window, IMessageHandler<RefreshMessage>
     {
         public string username { get; set; }
+
+        public List<LoginData> SearchData = new List<LoginData>();
 
         public Aplikacja()
         {
@@ -79,6 +83,7 @@ namespace Menadżer_3
             }
 
             // coś
+            SearchData = data;
             dataGrid.ItemsSource = data;
 
             dataGrid.Columns.Clear();
@@ -118,7 +123,7 @@ namespace Menadżer_3
             template.VisualTree = factory;
             deleteColumn.CellTemplate = template;
             dataGrid.Columns.Add(deleteColumn);
-            //Edytowangko
+            // Szukajka
         }
 
         // To nic nie robi :)
@@ -181,13 +186,38 @@ namespace Menadżer_3
             Nowateczka.username = username;
             Nowateczka.Show();
         }
-    }
-}
 
-public class LoginData
-{
-    public string Email { get; set; }
-    public string Password { get; set; }
-    public string SiteName { get; set; }
-    public string UserName { get; set; }
+        private void Szukajka_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var filter = (sender as TextBox).Text.ToLower().Trim();
+            var searchCollection = SearchData;
+            dataGrid.ItemsSource = SearchData;
+            var searchedCollection = new List<LoginData>();
+
+            if (searchCollection != null)
+            {
+                foreach (var item in searchCollection)
+                {
+                    if (((Menadżer_3.LoginData)item).SiteName.ToLower().Contains(filter))
+                    {
+                        searchedCollection.Add(item);
+                    }
+                }
+                dataGrid.ItemsSource = searchedCollection;
+            }
+
+            if (filter.Trim().Length == 0)
+            {
+                dataGrid.ItemsSource = SearchData;
+            }
+        }
+    }
+
+    public class LoginData
+    {
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string SiteName { get; set; }
+        public string UserName { get; set; }
+    }
 }
