@@ -35,7 +35,8 @@
                      VerticalAlignment="Top"
                      Width="170"
                      Background="#FFA9B2B7"
-                     BorderBrush="Black" />
+                     BorderBrush="Black"
+                 PreviewKeyDown="boxPassword_PreviewKeyDown" />
         <TextBlock HorizontalAlignment="Left"
                    Margin="81,215,0,0"
                    TextWrapping="Wrap"
