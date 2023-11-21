@@ -32,7 +32,17 @@ namespace Menadżer_3
         {
             string key = "1234567890123456"; // Your Key Here
             byte[] iv = new byte[16];
-            byte[] buffer = Convert.FromBase64String(cipherText);
+            byte[] buffer;
+
+            try
+            {
+                buffer = Convert.FromBase64String(cipherText);
+            }
+            catch (FormatException)
+            {
+                // Niepoprawny format Base64, zwróć oryginalny tekst
+                return cipherText;
+            }
 
             using (Aes aes = Aes.Create())
             {
@@ -41,15 +51,23 @@ namespace Menadżer_3
 
                 ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
 
-                using (MemoryStream memoryStream = new MemoryStream(buffer))
+                try
                 {
-                    using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, decryptor, CryptoStreamMode.Read))
+                    using (MemoryStream memoryStream = new MemoryStream(buffer))
                     {
-                        using (StreamReader streamReader = new StreamReader((Stream)cryptoStream))
+                        using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, decryptor, CryptoStreamMode.Read))
                         {
-                            return streamReader.ReadToEnd();
+                            using (StreamReader streamReader = new StreamReader((Stream)cryptoStream))
+                            {
+                                return streamReader.ReadToEnd();
+                            }
                         }
                     }
+                }
+                catch (CryptographicException)
+                {
+                    // Błąd podczas deszyfrowania, zwróć oryginalny tekst
+                    return cipherText;
                 }
             }
         }
@@ -80,6 +98,14 @@ namespace Menadżer_3
         {
             s = s.Trim();
             return (s.Length % 4 == 0) && Regex.IsMatch(s, @"^[a-zA-Z0-9\+/]*={0,3}$", RegexOptions.None);
+        }
+
+        private void boxPassword_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                btnLogin_Click(null, null);
+            }
         }
 
         private void boxPassword_TextChanged(object sender, TextChangedEventArgs e)

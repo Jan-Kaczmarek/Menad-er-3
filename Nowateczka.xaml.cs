@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -28,6 +29,36 @@ namespace Menadżer_3
             InitializeComponent();
         }
 
+        public static string EncryptString(string plainText)
+        {
+            string key = "1234567890123456"; // Your Key Here
+            byte[] iv = new byte[16];
+            byte[] array;
+
+            using (Aes aes = Aes.Create())
+            {
+                aes.Key = Encoding.UTF8.GetBytes(key);
+                aes.IV = iv;
+
+                ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, encryptor, CryptoStreamMode.Write))
+                    {
+                        using (StreamWriter streamWriter = new StreamWriter((Stream)cryptoStream))
+                        {
+                            streamWriter.Write(plainText);
+                        }
+
+                        array = memoryStream.ToArray();
+                    }
+                }
+            }
+
+            return Convert.ToBase64String(array);
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             string filePath = "C:\\Users\\jan.kaczmarek\\source\\repos\\Menadżer 3\\Dane\\" + username + ".txt";
@@ -35,23 +66,27 @@ namespace Menadżer_3
             string email = Email.Text;
             string userName = UserName.Text;
             string password = Password.Text;
+            string encryptedPassword = EncryptString(password);
+            string encryptedUserName = EncryptString(userName);
 
             if (string.IsNullOrWhiteSpace(webname) || string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(userName) || string.IsNullOrWhiteSpace(password))
             {
                 MessageBox.Show("Wszystko musi być wypełnione cymbale");
                 return;
             }
-
-            using (StreamWriter writer = File.AppendText(filePath))
+            if (File.Exists(filePath))
             {
-                writer.WriteLine("Dane Logowania");
-                writer.WriteLine("Nazwa Strony: " + webname);
-                writer.WriteLine("email: " + email);
-                writer.WriteLine("Nazwa Użytkownika: " + userName);
-                writer.WriteLine("Hasło: " + password);
+                using (StreamWriter writer = File.AppendText(filePath))
+                {
+                    writer.WriteLine("Dane Logowania");
+                    writer.WriteLine("Nazwa Strony: " + webname);
+                    writer.WriteLine("email: " + email);
+                    writer.WriteLine("Nazwa Użytkownika: " + encryptedUserName);
+                    writer.WriteLine("Hasło: " + encryptedPassword);
+                }
+                MessageBus.Default.Publish(new RefreshMessage(this, "Refresh"));
+                this.Close();
             }
-            MessageBus.Default.Publish(new RefreshMessage(this, "Refresh"));
-            this.Close();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)

@@ -19,6 +19,7 @@ using LightMessageBus;
 using System.Reflection;
 using System.ComponentModel;
 using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 
 namespace Menadżer_3
 {
@@ -37,6 +38,80 @@ namespace Menadżer_3
             MessageBus.Default.FromAny().Where<RefreshMessage>().Notify(this);
         }
 
+        public static string DecryptString(string cipherText)
+        {
+            string key = "1234567890123456"; // Your Key Here
+            byte[] iv = new byte[16];
+            byte[] buffer;
+
+            try
+            {
+                buffer = Convert.FromBase64String(cipherText);
+            }
+            catch (FormatException)
+            {
+                // Niepoprawny format Base64, zwróć oryginalny tekst
+                return cipherText;
+            }
+
+            using (Aes aes = Aes.Create())
+            {
+                aes.Key = Encoding.UTF8.GetBytes(key);
+                aes.IV = iv;
+
+                ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+
+                try
+                {
+                    using (MemoryStream memoryStream = new MemoryStream(buffer))
+                    {
+                        using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, decryptor, CryptoStreamMode.Read))
+                        {
+                            using (StreamReader streamReader = new StreamReader((Stream)cryptoStream))
+                            {
+                                return streamReader.ReadToEnd();
+                            }
+                        }
+                    }
+                }
+                catch (CryptographicException)
+                {
+                    // Błąd podczas deszyfrowania, zwróć oryginalny tekst
+                    return cipherText;
+                }
+            }
+        }
+
+        public static string EncryptString(string plainText)
+        {
+            string key = "1234567890123456"; // Your Key Here
+            byte[] iv = new byte[16];
+            byte[] array;
+
+            using (Aes aes = Aes.Create())
+            {
+                aes.Key = Encoding.UTF8.GetBytes(key);
+                aes.IV = iv;
+
+                ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, encryptor, CryptoStreamMode.Write))
+                    {
+                        using (StreamWriter streamWriter = new StreamWriter((Stream)cryptoStream))
+                        {
+                            streamWriter.Write(plainText);
+                        }
+
+                        array = memoryStream.ToArray();
+                    }
+                }
+            }
+
+            return Convert.ToBase64String(array);
+        }
+
         public void Handle(RefreshMessage message)
         {
             var data = message.Data;
@@ -44,11 +119,39 @@ namespace Menadżer_3
             dataGrid_Loaded(null, null);
         }
 
+        public bool IsBase64String(string s)
+        {
+            s = s.Trim();
+            return (s.Length % 4 == 0) && Regex.IsMatch(s, @"^[a-zA-Z0-9\+/]*={0,3}$", RegexOptions.None);
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             MainWindow MainWindow = new MainWindow();
             MainWindow.Show();
             this.Close();
+        }
+
+        // Zapisywanie zmian w datagrid
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            // Zatwierdź zmiany w DataGrid
+            dataGrid.CommitEdit(DataGridEditingUnit.Row, true);
+            ICollectionView view = CollectionViewSource.GetDefaultView(dataGrid.ItemsSource);
+            view.Refresh();
+
+            // Zapisz zmiany do pliku tekstowego
+            string filePath = "C:\\Users\\jan.kaczmarek\\source\\repos\\Menadżer 3\\Dane\\" + username + ".txt";
+            using (StreamWriter sw = new StreamWriter(filePath))
+            {
+                foreach (LoginData item in dataGrid.ItemsSource)
+                {
+                    sw.WriteLine($"Nazwa Strony: {item.SiteName}");
+                    sw.WriteLine($"email: {item.Email}");
+                    sw.WriteLine($"Nazwa Użytkownika: {EncryptString(item.UserName)}");
+                    sw.WriteLine($"Hasło: {EncryptString(item.Password)}");
+                }
+            }
         }
 
         private void dataGrid_Loaded(object sender, RoutedEventArgs e)
@@ -72,10 +175,31 @@ namespace Menadżer_3
                     else if (row[0].Trim() == "email")
                         loginData.Email = row[1].Trim();
                     else if (row[0].Trim() == "Nazwa Użytkownika")
-                        loginData.UserName = row[1].Trim();
+                    {
+                        // Sprawdź, czy nazwa użytkownika jest zakodowana w Base64
+                        if (IsBase64String(row[1].Trim()))
+                        {
+                            // Odszyfruj nazwę użytkownika
+                            loginData.UserName = DecryptString(row[1].Trim());
+                        }
+                        else
+                        {
+                            loginData.UserName = row[1].Trim();
+                        }
+                    }
                     else if (row[0].Trim() == "Hasło")
                     {
-                        loginData.Password = row[1].Trim();
+                        // Sprawdź, czy hasło jest zakodowane w Base64
+                        if (IsBase64String(row[1].Trim()))
+                        {
+                            // Odszyfruj hasło
+                            loginData.Password = DecryptString(row[1].Trim());
+                        }
+                        else
+                        {
+                            loginData.Password = row[1].Trim();
+                        }
+
                         data.Add(loginData);
                         loginData = new LoginData();
                     }
@@ -123,7 +247,9 @@ namespace Menadżer_3
             template.VisualTree = factory;
             deleteColumn.CellTemplate = template;
             dataGrid.Columns.Add(deleteColumn);
-            // Szukajka
+            // Dodajemy przycisk zapisywania
+            saveButton.Content = "Zapisz";
+            saveButton.Click += Button_Click_1;
         }
 
         // To nic nie robi :)
@@ -166,18 +292,6 @@ namespace Menadżer_3
 
         private void EditRow(object sender, RoutedEventArgs e)
         {
-            // Pobierz wybrany wiersz
-            LoginData loginData = (LoginData)dataGrid.SelectedItem;
-
-            // Jeśli żaden wiersz nie jest wybrany, wyświetl komunikat
-            if (loginData == null)
-            {
-                MessageBox.Show("Proszę wybrać wiersz do edycji.");
-                return;
-            }
-
-            // Ustaw wybrany wiersz jako edytowany
-            dataGrid.BeginEdit();
         }
 
         private void Nteczka_Click(object sender, RoutedEventArgs e)

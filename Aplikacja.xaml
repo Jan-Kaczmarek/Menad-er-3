@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Menadżer_3"
         mc:Ignorable="d"
         Title="Menadżer" Height="475" Width="805" ResizeMode="CanMinimize">
-    <Grid>
+    <Grid Margin="0,0,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="239*" />
             <RowDefinition Height="195*" />
@@ -14,31 +14,55 @@
 
         <!--Nowa teczka-->
         <Button
-            Content="Dodaj +"
+            Content="Nowe hasło"
             HorizontalAlignment="Left"
-            Margin="50,0,0,0"
-            VerticalAlignment="Center"
-            Height="70"
-            Width="100"
-            Click="Nteczka_Click" FontSize="24" FontWeight="Bold" FontFamily="72 Black" />
+            Margin="48,69,0,0"
+            VerticalAlignment="Top"
+            Height="45"
+            Width="102"
+            Click="Nteczka_Click"
+            FontSize="14"
+            FontWeight="Bold"
+            FontFamily="72 Black">
+            <Button.Background>
+                <ImageBrush />
+            </Button.Background>
+        </Button>
         <!--Zmiany w teczkach-->
         <Button Name="Edit"
-            Content="Edytuj"
-            HorizontalAlignment="Left"
-            Margin="50,200,0,0"
-            VerticalAlignment="Top" Height="60" Width="100" Click="EditRow" FontSize="24" FontWeight="Bold" FontFamily="72 Black" Grid.RowSpan="2" />
+                Content="Zmiana"
+                HorizontalAlignment="Left"
+                Margin="536,157,0,0"
+                VerticalAlignment="Top"
+                Height="24"
+                Width="69"
+                Click="EditRow"
+                FontSize="14"
+                Grid.Row="1"
+                FontWeight="Bold">
+            <Button.Background>
+                <ImageBrush />
+            </Button.Background>
+        </Button>
         <!---->
         <Button
             Content="Wyloguj"
             HorizontalAlignment="Left"
-            Margin="50,150,0,0"
-            VerticalAlignment="Top" Height="35" Width="100" Grid.Row="1" Click="Button_Click" FontSize="14" FontWeight="Bold" BorderBrush="Black">
+            Margin="48,146,0,0"
+            VerticalAlignment="Top"
+            Height="35"
+            Width="100"
+            Grid.Row="1"
+            Click="Button_Click"
+            FontSize="14"
+            FontWeight="Bold"
+            BorderBrush="Black">
             <Button.Background>
                 <ImageBrush />
             </Button.Background>
         </Button>
         <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}"
-                  Margin="205,69,0,0"
+                  Margin="195,69,0,60"
                   SelectionChanged="DataGrid_SelectionChanged_1"
                   Name="dataGrid"
                   CanUserAddRows="False"
@@ -46,14 +70,35 @@
                   Grid.RowSpan="2" />
         <TextBox Name="Szukajka"
                  HorizontalAlignment="Left"
-                 Margin="205,34,0,0"
+                 Margin="195,34,0,0"
                  TextWrapping="Wrap"
                  Text="&#xD;&#xA;"
                  VerticalAlignment="Top"
-                 Width="600" Height="20"
+                 Width="610" Height="20"
                  FontSize="14"
                  BorderThickness="0,0,0,3"
                  BorderBrush="Black"
                  TextChanged="Szukajka_TextChanged" />
+        <TextBlock HorizontalAlignment="Left" Margin="402,161,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Height="18" Width="138"><Run Text="Zmiana " /><Run Language="pl-pl" Text="hasła Głównego" /><Run Text=":" /><LineBreak /><Run /></TextBlock>
+        <Button x:Name="saveButton"
+                Content="Zapisz"
+                HorizontalAlignment="Left"
+                Margin="715,156,0,0"
+                VerticalAlignment="Top"
+                Click="Button_Click_1"
+                Height="25"
+                Width="55"
+                Grid.Row="1"
+                BorderBrush="Black">
+            <Button.Background>
+                <ImageBrush />
+            </Button.Background>
+        </Button>
+        <TextBlock HorizontalAlignment="Left"
+                   Margin="630,159,0,13"
+                   Grid.Row="1"
+                   TextWrapping="Wrap"
+                   Text="Zapisz zmiany:"
+                   Width="105" />
     </Grid>
 </Window>

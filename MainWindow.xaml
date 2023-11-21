@@ -50,7 +50,8 @@
                          VerticalAlignment="Top"
                          Width="170"
                          Background="#ffA9B2B7"
-                         BorderBrush="Black" />
+                         BorderBrush="Black"
+                        PreviewKeyDown="boxPassword_PreviewKeyDown" />
         <!--Guziory-->
         <Button x:Name="btnLogin"
                 Content="Zaloguj"

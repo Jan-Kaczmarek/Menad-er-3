@@ -45,10 +45,42 @@
                  TextWrapping="Wrap"
                  VerticalAlignment="Top"
                  Width="120" RenderTransformOrigin="0.5,0.949" />
-        <TextBlock HorizontalAlignment="Left" Margin="139,188,0,0" TextWrapping="Wrap" Text="Hasło:" VerticalAlignment="Top" RenderTransformOrigin="0.433,0.378" FontWeight="Bold" />
-        <TextBlock HorizontalAlignment="Left" Margin="127,125,0,0" TextWrapping="Wrap" Text="E-mail:" VerticalAlignment="Top" FontWeight="Bold" />
-        <TextBlock HorizontalAlignment="Left" Margin="57,159,0,0" TextWrapping="Wrap" Text="Nazwa Użytkownika:" VerticalAlignment="Top" FontWeight="Bold" />
-        <TextBlock HorizontalAlignment="Left" Margin="86,94,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="82" FontWeight="Bold" ><Run Text="Nazwa strony" /><Run Language="pl-pl" Text=":" /></TextBlock>
-        <Button Content="Losowe Hasło" HorizontalAlignment="Center" Margin="0,224,0,0" VerticalAlignment="Top" Height="25" Width="90" Click="Button_Click_1" />
+        <TextBlock HorizontalAlignment="Left"
+                   Margin="139,188,0,0"
+                   TextWrapping="Wrap"
+                   Text="Hasło:"
+                   VerticalAlignment="Top"
+                   RenderTransformOrigin="0.433,0.378"
+                   FontWeight="Bold" />
+        <TextBlock
+            HorizontalAlignment="Left"
+            Margin="127,125,0,0"
+            TextWrapping="Wrap"
+            Text="E-mail:"
+            VerticalAlignment="Top"
+            FontWeight="Bold" />
+        <TextBlock
+            HorizontalAlignment="Left"
+            Margin="57,159,0,0"
+            TextWrapping="Wrap"
+            Text="Nazwa Użytkownika:"
+            VerticalAlignment="Top"
+            FontWeight="Bold" />
+        <TextBlock
+            HorizontalAlignment="Left"
+            Margin="80,94,0,0"
+            TextWrapping="Wrap"
+            VerticalAlignment="Top"
+            Width="88"
+            FontWeight="Bold">
+            <Run Text="Nazwa strony" />
+            <Run Language="pl-pl" Text=":" />
+        </TextBlock>
+        <Button Content="Losowe Hasło"
+                HorizontalAlignment="Center"
+                Margin="0,224,0,0"
+                VerticalAlignment="Top"
+                Height="25" Width="90"
+                Click="Button_Click_1" />
     </Grid>
 </Window>
